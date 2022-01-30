@@ -37,4 +37,15 @@ body {
   .gameDescription {
     text-align: center;
   }
+  footer {
+    background: $footerColor;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    width: 100%;
+    border-top: 3px solid $buttonLinkBorderColor;
+    p {
+      margin: 0.5rem;
+    }
+  }
   

@@ -279,4 +279,17 @@ h2 {
 .gameDescription {
   text-align: center;
 }
+
+footer {
+  background: #3f3f3f;
+  color: white;
+  text-align: center;
+  padding: 10px 0;
+  width: 100%;
+  border-top: 3px solid #222c3a;
+}
+
+footer p {
+  margin: 0.5rem;
+}
 /*# sourceMappingURL=App.css.map */
