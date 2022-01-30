@@ -1,5 +1,6 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import KeyboardLetter from "./KeyBoardLetter";
+import GameWordLetter from "./GameWordLetter";
 
 const Game = () => {
   const [unusedLettersArray, setUnusedLettersArray] = useState([]);
@@ -32,24 +33,28 @@ const Game = () => {
       }
     });
 
-    // decrememnt turnsLeft if letter was incorrect
-    const newTurnsLeft = turnsLeft - 1;
+    // decrement turns if letter was incorrect
+
+    const updatedTurnsLeft = turnsLeft - 1;
     if (!letterFoundInWord) {
-      setTurnsLeft(newTurnsLeft);
+      setTurnsLeft(updatedTurnsLeft);
+
       // add letter to usedLettersArray
       setUsedLettersArray([...usedLettersArray, currentLetter]);
     }
-
+               // Update emptyWordArray with found letters version
     setEmptyWordArray(updatedWordArray);
     if (gameWordArray.join("") === updatedWordArray.join("")) {
-      alert("You win!");
-      setIsGameStarted(false);
-    }
-    if (newTurnsLeft === 0) {
-      alert("You Lose :(");
-      setIsGameStarted(false);
-    }
-  });
+        setIsWinner(true);
+        setShowModal(true);
+      }
+
+      if (updatedTurnsLeft === 0) {
+        setShowModal(true);
+      }
+    },
+    [emptyWordArray, gameWordArray, turnsLeft, unusedLettersArray, usedLettersArray]
+  );
 
   return (
     <section className="gameContainer">
