@@ -3,6 +3,7 @@ import KeyboardLetter from "./KeyBoardLetter";
 import GameWordLetter from "./GameWordLetter";
 import WordHint from "./WordHint";
 import StrikeLetter from "./StrikeLetter";
+import GameSummaryModal from "./GameSummaryModal";
 
 const Game = () => {
   const [unusedLettersArray, setUnusedLettersArray] = useState([]);
@@ -120,13 +121,12 @@ const Game = () => {
     }
   }, [showModal]);
 
-
   useEffect(() => {
     // Multiply word length by turns left, minus 300 points for using word hint.
     const baseScore = gameWordArray.length * turnsLeft * 100;
     const wordHintPenalty = showHint ? 200 : 0;
     setScore(baseScore - wordHintPenalty);
-  }, [gameWordArray.length, showHint,turnsLeft]);
+  }, [gameWordArray.length, showHint, turnsLeft]);
 
   useEffect(() => {
     if (!showModal) {
@@ -143,7 +143,7 @@ const Game = () => {
       };
     }
   }, [checkLetter, showModal, unusedLettersArray]);
-
+  // Fixes issue where user refreshes page. Page refresh will load and display a new word, and reset all fields to default.
   useEffect(() => {
     setUsedLettersArray([]);
     setShowHint(false);
@@ -161,12 +161,18 @@ const Game = () => {
           <p>Score: {isLoaded ? score : "Loading..."}</p>
         </div>
       </div>
-      <WordHint definition={definition} showHint={showHint} setShowHint={setShowHint} />
+      <WordHint
+        definition={definition}
+        showHint={showHint}
+        setShowHint={setShowHint}
+      />
       <div className="container">
         {!isLoaded ? (
           <p>Loading...</p>
         ) : (
-          emptyWordArray.map((char, index) => <GameWordLetter char={char} index={index} key={index} />)
+          emptyWordArray.map((char, index) => (
+            <GameWordLetter char={char} index={index} key={index} />
+          ))
         )}
       </div>
       <div>
@@ -176,9 +182,14 @@ const Game = () => {
       </div>
       <div>
         {unusedLettersArray.map((letter) => (
-          <KeyboardLetter letter={letter} checkLetter={checkLetter} key={letter} />
+          <KeyboardLetter
+            letter={letter}
+            checkLetter={checkLetter}
+            key={letter}
+          />
         ))}
       </div>
+      <GameSummaryModal />
     </section>
   );
 };
