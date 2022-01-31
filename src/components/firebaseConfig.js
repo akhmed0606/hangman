@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import firebase from 'firebase/compat/app';
 import "firebase/database";
 
 const firebaseConfig = {
@@ -8,10 +8,5 @@ const firebaseConfig = {
   dataBaseURL: `https://${process.env.REACT_APP_FIREBASE_ID}-default-rtdb.firebaseio.com`,
 };
 
-function initFirebase() {
-    if(!firebase.getApps.length){
-        firebase.initializeApp(firebaseConfig)
-    }
-}
-initFirebase()
+firebase.initializeApp(firebaseConfig);
 export default firebase;
