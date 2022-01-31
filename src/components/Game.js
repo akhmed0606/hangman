@@ -122,9 +122,29 @@ const Game = () => {
   useEffect(() => {
     // Multiply word length by turns left, minus 300 points for using word hint.
     const baseScore = gameWordArray.length * turnsLeft * 100;
-    const wordHintPenalty = showHint ? 300 : 0;
+    const wordHintPenalty = showHint ? 200 : 0;
     setScore(baseScore - wordHintPenalty);
-  }, [gameWordArray.length, showHint]);
+  }, [gameWordArray.length, showHint,turnsLeft]);
+
+  useEffect(() => {
+    if (showModal) {
+      const checkKeydown = (e) => {
+        const keyToCheck = e.key.toUpperCase();
+        if (unusedLettersArray.includes(keyToCheck)) {
+          checkLetter();
+        }
+      };
+
+      checkKeydown()
+    }
+  }, [checkLetter, showModal, unusedLettersArray]);
+
+  useEffect(() => {
+    setUsedLettersArray([]);
+    setShowHint(false);
+    setUnusedLettersArray("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
+    setEmptyWordArray(gameWordArray.map((char) => (char === " " ? "_" : " ")));
+  }, []);
 
   return (
     <section className="gameContainer">
