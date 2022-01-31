@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import KeyboardLetter from "./KeyBoardLetter";
 import GameWordLetter from "./GameWordLetter";
+import WordHint from "./WordHint";
 
 const Game = () => {
   const [unusedLettersArray, setUnusedLettersArray] = useState([]);
@@ -146,20 +147,26 @@ const Game = () => {
     setUsedLettersArray([]);
     setShowHint(false);
     setUnusedLettersArray("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
-    setEmptyWordArray(gameWordArray.map((char) => (char === " " ? "_" : " ")));
+    setEmptyWordArray(gameWordArray.map((char) => (char === " " ? " " : "_")));
   }, [gameWordArray]);
 
   return (
     <section className="gameContainer">
-      <h2>Tries Left: {turnsLeft}</h2>
+      <div>
+        <div>
+          <p>Tries Left: {turnsLeft}</p>
+        </div>
+        <div>
+          <p>Score: {isLoaded ? score : "Loading..."}</p>
+        </div>
+      </div>
+      <WordHint definition={definition} showHint={showHint} setShowHint={setShowHint} />
       <div className="container">
-        {emptyWordArray.map((char, id) => {
-          return (
-            <span className="wordBox" key={id}>
-              {char}
-            </span>
-          );
-        })}
+        {!isLoaded ? (
+          <p>Loading...</p>
+        ) : (
+          emptyWordArray.map((char, index) => <GameWordLetter char={char} index={index} key={index} />)
+        )}
       </div>
       <div className="unusedLettersContainer">
         {unusedLettersArray.map((letter) => (
