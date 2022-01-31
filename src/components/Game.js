@@ -189,7 +189,15 @@ const Game = () => {
           />
         ))}
       </div>
-      <GameSummaryModal />
+      {showModal ? (
+        <GameSummaryModal
+          setIsLoaded={setIsLoaded}
+          isWinner={isWinner}
+          setShowModal={setShowModal}
+          score={score}
+          word={gameWordArray.join("")}
+        />
+      ) : null}
     </section>
   );
 };
