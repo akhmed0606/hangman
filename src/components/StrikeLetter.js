@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 const StrikeLetter = ({ letter }) => {
   return (
-    <span key={letter}>
+    <span className="strikethrough" key={letter}>
       {letter}
     </span>
   );
