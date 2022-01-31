@@ -105,12 +105,17 @@ body {
     margin: 5px;
   }
   
-  .strikethrough::before {
+  .strikethrough::before, .strikethrough::after {
     position: absolute;
-    content: "";
-    border-top: 3px solid red;
+    content: " ";
+    border-top: 2px solid red;
     top: 50%;
     left: 0;
     right: 0;
+  }
+  .strikethrough:before {
+    transform: rotate(45deg);
+  }
+  .strikethrough:after {
     transform: rotate(-45deg);
   }
