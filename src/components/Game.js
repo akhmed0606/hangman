@@ -127,15 +127,18 @@ const Game = () => {
   }, [gameWordArray.length, showHint,turnsLeft]);
 
   useEffect(() => {
-    if (showModal) {
+    if (!showModal) {
       const checkKeydown = (e) => {
         const keyToCheck = e.key.toUpperCase();
         if (unusedLettersArray.includes(keyToCheck)) {
-          checkLetter();
+          checkLetter(e);
         }
       };
 
-      checkKeydown()
+      document.addEventListener("keydown", checkKeydown);
+      return () => {
+        document.removeEventListener("keydown", checkKeydown);
+      };
     }
   }, [checkLetter, showModal, unusedLettersArray]);
 
@@ -144,7 +147,7 @@ const Game = () => {
     setShowHint(false);
     setUnusedLettersArray("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
     setEmptyWordArray(gameWordArray.map((char) => (char === " " ? "_" : " ")));
-  }, []);
+  }, [gameWordArray]);
 
   return (
     <section className="gameContainer">
