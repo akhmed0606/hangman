@@ -1,15 +1,90 @@
-const GameSummaryModal = ({ message,setShowModal }) => {
-    const handleClick = () => {
-        setShowModal(false);
-    };
-  
-    return (
-      <div className='modal'>
-        <h2>Game finished! {message}</h2>
-        <p>Please view the leader board to see how you compare</p>
-        <button onClick={handleClick}>Close</button>
-      </div>
-    );
+import PropTypes from "prop-types";
+import { useState } from "react";
+import firebase from "./firebaseConfig";
+
+const GameSummaryModal = ({ setIsLoaded, isWinner, setShowModal, score, word }) => {
+  const [userInput, setUserInput] = useState("");
+  const [showForm, setShowForm] = useState(true);
+
+  const handleClose = () => {
+    setIsLoaded(false);
+    setShowModal(false);
   };
-  
-  export default GameSummaryModal;
+
+  // Record date of high score, for now only to the server
+  const todayArray = new Date().toDateString().split(" ");
+  const myDate = `${todayArray[1]} ${todayArray[2]}, ${todayArray[3]}`;
+
+  const addToLeaderboard = (e) => {
+    e.preventDefault();
+    const dbRef = firebase.database().ref();
+    dbRef.push({
+      username: userInput,
+      score: score,
+      date: myDate,
+      word: word,
+    });
+    setShowForm(false);
+  };
+
+  return (
+    <div className="modalRoot">
+      <div className="modal">
+        <h2>{isWinner ? "You did it!" : "Thanks for playing! Please try again."}</h2>
+        <p>Your game word was: </p>
+        <p className="featureText">{word}</p>
+        {isWinner && showForm ? (
+          <div>
+            <p>Your finished with a score of:</p>
+            <p className="featureText">{score}</p>
+            <form className="leaderboardForm" onSubmit={addToLeaderboard}>
+              <label htmlFor="leaderboardName">Enter your name for the leaderboard:</label>
+              <input
+                type="text"
+                id="leaderboardName"
+                placeholder="Name (8 chars max)"
+                maxLength={8}
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
+        ) : isWinner ? (
+          <div className="formConfirmation">
+            <p>Thank you! Your entry of </p>
+            <p>
+              Name: <span>{userInput}</span> <br />
+              Score: <span>{score}</span>
+            </p>{" "}
+            <p> has been added to the leaderboard.</p>
+          </div>
+        ) : null}
+        <div className="buttonContainer">
+            
+            <h5>
+            Play Again
+            </h5>
+            
+         
+          <button onClick={handleClose}>
+            Leaderboard
+          </button>
+          <button onClick={handleClose}>
+            Home
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+GameSummaryModal.propTypes = {
+  setIsLoaded: PropTypes.bool,
+  isWinner: PropTypes.bool,
+  setShowModal: PropTypes.bool,
+  score: PropTypes.number,
+  word: PropTypes.string,
+};
+
+export default GameSummaryModal;
