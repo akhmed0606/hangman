@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 import firebase from "./firebaseConfig";
 
@@ -61,18 +62,15 @@ const GameSummaryModal = ({ setIsLoaded, isWinner, setShowModal, score, word }) 
           </div>
         ) : null}
         <div className="buttonContainer">
-            
-            <h5>
+          <Link className="buttonLink" to="/game" onClick={handleClose}>
             Play Again
-            </h5>
-            
-         
-          <button onClick={handleClose}>
+          </Link>
+          <Link className="buttonLink" to="/leaderboard" onClick={handleClose}>
             Leaderboard
-          </button>
-          <button onClick={handleClose}>
+          </Link>
+          <Link className="buttonLink" to="/" onClick={handleClose}>
             Home
-          </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom"
 
 const Home = () => {
   return (
@@ -8,8 +9,12 @@ const Home = () => {
         allowed. To begin, press Start Game below!
       </p>
        
-       <h6> Start Game</h6>
-        <h6>Liderboard</h6>
+      <Link className="buttonLink" to="/game">
+        Start Game
+      </Link>
+      <Link className="buttonLink" to="/leaderboard">
+        Leaderboard
+      </Link>
      
       
     </div>
