@@ -45,7 +45,7 @@ const Game = () => {
       }
       // Update emptyWordArray with found letters version
       setEmptyWordArray(updatedWordArray);
-      if (gameWordArray.join("") === updatedWordArray.join("")) {
+      if (gameWordArray.join("") == updatedWordArray.join("")) {
         setIsWinner(true);
         setShowModal(true);
       }
@@ -117,6 +117,14 @@ const Game = () => {
       fetchData();
     }
   }, [showModal]);
+
+
+  useEffect(() => {
+    // Multiply word length by turns left, minus 300 points for using word hint.
+    const baseScore = gameWordArray.length * turnsLeft * 100;
+    const wordHintPenalty = showHint ? 300 : 0;
+    setScore(baseScore - wordHintPenalty);
+  }, [gameWordArray.length, showHint]);
 
   return (
     <section className="gameContainer">
