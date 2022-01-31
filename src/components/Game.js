@@ -2,6 +2,7 @@ import { useState, useCallback, useEffect } from "react";
 import KeyboardLetter from "./KeyBoardLetter";
 import GameWordLetter from "./GameWordLetter";
 import WordHint from "./WordHint";
+import StrikeLetter from "./StrikeLetter";
 
 const Game = () => {
   const [unusedLettersArray, setUnusedLettersArray] = useState([]);
@@ -46,7 +47,7 @@ const Game = () => {
       }
       // Update emptyWordArray with found letters version
       setEmptyWordArray(updatedWordArray);
-      if (gameWordArray.join("") == updatedWordArray.join("")) {
+      if (gameWordArray.join("") === updatedWordArray.join("")) {
         setIsWinner(true);
         setShowModal(true);
       }
@@ -168,23 +169,15 @@ const Game = () => {
           emptyWordArray.map((char, index) => <GameWordLetter char={char} index={index} key={index} />)
         )}
       </div>
-      <div className="unusedLettersContainer">
-        {unusedLettersArray.map((letter) => (
-          <KeyboardLetter
-            letter={letter}
-            checkLetter={checkLetter}
-            key={letter}
-          />
+      <div>
+        {usedLettersArray.map((letter) => (
+          <StrikeLetter letter={letter} key={letter} />
         ))}
       </div>
-      <div className="unusedLettersContainer">
-        {unusedLettersArray.map((letter) => {
-          return (
-            <button onClick={checkLetter} key={letter}>
-              {letter}
-            </button>
-          );
-        })}
+      <div>
+        {unusedLettersArray.map((letter) => (
+          <KeyboardLetter letter={letter} checkLetter={checkLetter} key={letter} />
+        ))}
       </div>
     </section>
   );
