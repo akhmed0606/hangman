@@ -78,9 +78,9 @@ const GameSummaryModal = ({ setIsLoaded, isWinner, setShowModal, score, word }) 
 };
 
 GameSummaryModal.propTypes = {
-  setIsLoaded: PropTypes.bool,
+  setIsLoaded: PropTypes.func,
   isWinner: PropTypes.bool,
-  setShowModal: PropTypes.bool,
+  setShowModal: PropTypes.func,
   score: PropTypes.number,
   word: PropTypes.string,
 };
