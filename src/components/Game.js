@@ -48,6 +48,7 @@ const Game = () => {
       }
       // Update emptyWordArray with found letters version
       setEmptyWordArray(updatedWordArray);
+
       if (gameWordArray.join("") === updatedWordArray.join("")) {
         setIsWinner(true);
         setShowModal(true);
@@ -128,6 +129,16 @@ const Game = () => {
     setScore(baseScore - wordHintPenalty);
   }, [gameWordArray.length, showHint, turnsLeft]);
 
+  // Fixes issue where user refreshes page. Page refresh will load and display a new word, and reset all fields to default.
+  useEffect(() => {
+    setUsedLettersArray([]);
+    setTurnsLeft(6);
+    setShowHint(false);
+    setUnusedLettersArray("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
+    setEmptyWordArray(gameWordArray.map((char) => (char === " " ? " " : "_")));
+  }, [gameWordArray, isLoaded]);
+
+
   useEffect(() => {
     if (!showModal) {
       const checkKeydown = (e) => {
@@ -143,17 +154,11 @@ const Game = () => {
       };
     }
   }, [checkLetter, showModal, unusedLettersArray]);
-  // Fixes issue where user refreshes page. Page refresh will load and display a new word, and reset all fields to default.
-  useEffect(() => {
-    setUsedLettersArray([]);
-    setShowHint(false);
-    setUnusedLettersArray("ABCDEFGHIJKLMNOPQRSTUVWXYZ".split(""));
-    setEmptyWordArray(gameWordArray.map((char) => (char === " " ? " " : "_")));
-  }, [gameWordArray]);
+  
 
   return (
     <section className="gameContainer">
-      <div>
+      <div className="dashboard">
         <div>
           <p>Tries Left: {turnsLeft}</p>
         </div>
@@ -168,19 +173,19 @@ const Game = () => {
       />
       <div className="container">
         {!isLoaded ? (
-          <p>Loading...</p>
+          <p className="loadingText">Loading...</p>
         ) : (
-          emptyWordArray.map((char, index) => (
-            <GameWordLetter char={char} index={index} key={index} />
-          ))
+          emptyWordArray.map((char, index) => 
+            <GameWordLetter char={char} index={index} key={index} />)
+          
         )}
       </div>
-      <div>
+      <div className="usedLettersContainer">
         {usedLettersArray.map((letter) => (
           <StrikeLetter letter={letter} key={letter} />
         ))}
       </div>
-      <div>
+      <div className="unusedLettersContainer">
         {unusedLettersArray.map((letter) => (
           <KeyboardLetter
             letter={letter}
