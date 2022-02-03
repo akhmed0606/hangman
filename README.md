@@ -11,7 +11,7 @@
 - The user is given 6 tries to guess a word, one letter at a time
 - Users lose points for wrong guesses and for retrieving hints
 - Words generated from a 3rd-party API
-- Cross-referenced to Marriam Webster Dictionary API for definitions
+- Cross-referenced to Merriam Webster Dictionary API for definitions
 - Users can post their names and scores to the leaderboard hosted by the Realtime Database in Google's Firebase
 
 
